@@ -34,19 +34,8 @@ generate_hcl "main.tf" {
         enabled = true
       }
       lifecycle {
-        rule {
-          status = "Enabled"
-          transition {
-            days          = 30
-            storage_class = "STANDARD_IA"
-          }
-          transition {
-            days          = 300
-            storage_class = "GLACIER"
-          }
-          expiration {
-            days = 365
-          }
+        expiration {
+          days = 365
         }
       }
     }
