@@ -27,28 +27,28 @@ generate_hcl "main.tf" {
   content {
     resource "aws_s3_bucket" "Infrasity" {
       acl = "private"
-      tags{
-        name: "S3"
+      tags {
+        name = "S3"
       }
       versioning {
         enabled = true
       }
       lifecycle {
-      rule {
-      status  = "Enabled"
-      transition {
-        days          = 30
-        storage_class = "STANDARD_IA"
+        rule {
+          status = "Enabled"
+          transition {
+            days          = 30
+            storage_class = "STANDARD_IA"
+          }
+          transition {
+            days          = 300
+            storage_class = "GLACIER"
+          }
+          expiration {
+            days = 365
+          }
+        }
       }
-      transition {
-        days          = 300
-        storage_class = "GLACIER"
-      }
-      expiration {
-        days = 365
-      }
-    }
     }
   }
-}
 }
