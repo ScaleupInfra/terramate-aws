@@ -27,7 +27,7 @@ generate_hcl "main.tf" {
   content {
     resource "aws_s3_bucket" "Infrasity" {
       acl = "private"
-      tags {
+      tags = {
         name = "S3"
       }
       versioning {
