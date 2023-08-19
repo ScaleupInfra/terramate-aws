@@ -33,11 +33,6 @@ generate_hcl "main.tf" {
       versioning {
         enabled = true
       }
-      lifecycle {
-        expiration {
-          days = 365
-        }
-      }
     }
   }
 }
