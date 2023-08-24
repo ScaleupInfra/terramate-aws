@@ -29,7 +29,7 @@ generate_hcl "main.tf" {
       acl = "private"
       tags = {
         name = "S3"
-        made_by = "Infrasity"
+        made_by = "Scaleup-Infra"
       }
       versioning {
         enabled = true
