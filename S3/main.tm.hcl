@@ -23,20 +23,6 @@ generate_hcl "provider.tf" {
     }
   }
 }
-generate_hcl "main.tf" {
-  content {
-    resource "aws_s3_bucket" "Infrasity" {
-      acl = "private"
-      tags = {
-        name = "S3"
-        made_by = "Infrasity"
-      }
-      versioning {
-        enabled = true
-      }
-    }
-  }
-}
 
 generate_hcl "backend.tf" {
   content {
