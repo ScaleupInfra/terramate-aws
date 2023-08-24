@@ -25,6 +25,7 @@ generate_hcl "provider.tf" {
 }
 generate_hcl "main.tf" {
   content {
+
   }
 }
 
