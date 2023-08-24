@@ -23,6 +23,10 @@ generate_hcl "provider.tf" {
     }
   }
 }
+generate_hcl "main.tf" {
+  content {
+  }
+}
 
 generate_hcl "backend.tf" {
   content {
