@@ -1,0 +1,52 @@
+name: Run Terraform Apply
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preview:
+    name: Apply
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: setup go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.20"
+      - name: Terramate install
+        run: go install github.com/terramate-io/terramate/cmd/...@latest
+
+      - name: Terramate List changed stacks
+        id: list
+        run: |
+          echo "stdout<<STDOUT" >>$GITHUB_OUTPUT
+          terramate list --changed >>$GITHUB_OUTPUT
+          echo "STDOUT" >>$GITHUB_OUTPUT
+
+      - name: Configure AWS Credentials
+        if: steps.list.outputs.stdout
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      - name: Terramate init on changes
+        if: steps.list.outputs.stdout
+        id: init
+        run: |
+          terramate run --changed -- terraform init
+
+      - name: Terramate apply on changes
+        if: steps.list.outputs.stdout
+        id: apply
+        run: |
+          terramate run --changed -- terraform apply -auto-approve
